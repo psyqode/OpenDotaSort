@@ -11,7 +11,7 @@ const consolidateGameTimes = (data) => {
     if (splitHeroData[laneRole.hero_id - 1]) {
       newHeroArray.push(...splitHeroData[laneRole.hero_id - 1])
     }
-
+    
     newHeroArray.push(laneRole)
 
     splitHeroData[laneRole.hero_id - 1] = newHeroArray
@@ -101,7 +101,7 @@ const renderHeroList = () => {
   const formatWinPercentage = (winPercentageDecimal) => Math.round(winPercentageDecimal * 100) + '%';
 
 
-  laneRoleData.forEach((laneRole) => {
+  laneRoleData.forEach((laneRole, i) => {
     const sortedHeroList = document.getElementById('SortedHeroList')
 
 
@@ -127,6 +127,7 @@ const renderHeroList = () => {
     newHeroListItem.getElementsByClassName('hero_name')[0].appendChild(document.createTextNode(heroName))
     newHeroListItem.getElementsByClassName('hero_img')[0].src = 'https://api.opendota.com' + heroImg
     newHeroListItem.getElementsByClassName('hero_img')[0].alt = heroName + ' image'
+    newHeroListItem.getElementsByClassName('hero_rank')[0].appendChild(document.createTextNode(i + 1))
 
     const formattedWinPercentage = formatWinPercentage(laneRole.winPercentage)
     newHeroListItem.getElementsByClassName('hero_win_percentage')[0].appendChild(document.createTextNode(formattedWinPercentage))
@@ -139,7 +140,6 @@ const renderHeroList = () => {
   })
 
 }
-
 
 
 

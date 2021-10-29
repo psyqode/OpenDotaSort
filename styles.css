@@ -1,0 +1,67 @@
+body {
+    font-family: 'Rubik', sans-serif;
+    padding: 20px 50px;
+}
+
+h1 {
+    text-align: center;
+}
+
+h3, p {
+    margin: 0;
+}
+
+#TemplateContainer {
+    display: none;
+}
+
+#SortedHeroList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+label {
+    margin-left: 20px;
+}
+
+
+.hero_list_item {
+    width: 300px;
+    min-width: 300px;
+    background-color: #fff;
+    margin: 20px;
+    border-radius: 8px;
+    border: 1px solid #999;
+    box-shadow: 5px 5px 15px rgba(0,0,0,.4);
+}
+
+.hero_img_container {
+    width: 100%;
+}
+
+.hero_img {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+}
+
+.hero_bottom {
+    padding: 0 12px 12px 12px;
+}
+
+.hero_name_container {
+    display: flex;
+    justify-content: center;
+    margin: 8px 0;
+}
+.hero_name {
+    font-size: 24px;
+}
+
+.hero_text_container {
+    display: flex;
+    justify-content: space-around;
+}
+
+
+
