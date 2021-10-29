@@ -59,8 +59,8 @@ const calculateWinPercentage = (rawData) => {
 }
 
 
-const fetchRoleData = async () => {
-  const data = await fetch('https://api.opendota.com/api/scenarios/laneRoles?lane_role=3')
+const fetchRoleData = async (roleNumber) => {
+  const data = await fetch('https://api.opendota.com/api/scenarios/laneRoles?lane_role=' + roleNumber)
     .then((resp) => resp.json())
 
   return data
@@ -96,12 +96,15 @@ const sortByWinPercentage = (data) => {
 
 // UI logic
 const renderHeroList = () => {
+  document.getElementById('SortedHeroList').innerHTML = ""
 
   const formatWinPercentage = (winPercentageDecimal) => Math.round(winPercentageDecimal * 100) + '%';
 
 
   laneRoleData.forEach((laneRole) => {
     const sortedHeroList = document.getElementById('SortedHeroList')
+
+
 
     // query template and then clone for new hero
     const heroListItem = document.getElementsByClassName('hero_list_item')[0]
@@ -110,15 +113,20 @@ const renderHeroList = () => {
 
     // get hero specific shit
     let heroName;
+    let heroImg;
+
     heroData.forEach(hero => {
       if (laneRole.hero_id === hero.id) {
+        heroImg = hero.img
         heroName = hero.localized_name
       }
     })
 
-
+    
     // write data into cloned hero list item
     newHeroListItem.getElementsByClassName('hero_name')[0].appendChild(document.createTextNode(heroName))
+    newHeroListItem.getElementsByClassName('hero_img')[0].src = 'https://api.opendota.com' + heroImg
+    newHeroListItem.getElementsByClassName('hero_img')[0].alt = heroName + ' image'
 
     const formattedWinPercentage = formatWinPercentage(laneRole.winPercentage)
     newHeroListItem.getElementsByClassName('hero_win_percentage')[0].appendChild(document.createTextNode(formattedWinPercentage))
@@ -136,8 +144,9 @@ const renderHeroList = () => {
 
 
 
-const setup = async () => {
-  const lrData = await fetchRoleData()
+
+const setupRoleData = async (roleNumber) => {
+  const lrData = await fetchRoleData(roleNumber)
 
   const consolidatedData = consolidateGameTimes(lrData)
 
@@ -146,6 +155,19 @@ const setup = async () => {
   const sortedData = sortByWinPercentage(dataWithWinPercentage)
 
   laneRoleData = sortedData;
+}
+
+
+
+document.getElementById('RoleSelect').addEventListener("change", async (event) => {
+  await setupRoleData(event.target.value)
+
+  renderHeroList()
+});
+
+
+const setup = async () => {
+  await setupRoleData(1)
 
   heroData = await fetchHeroData()
 
